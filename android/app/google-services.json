@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "359871841829",
+    "project_id": "work-space-new",
+    "storage_bucket": "work-space-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359871841829:android:a77441faec69fe9357a1cc",
+        "android_client_info": {
+          "package_name": "com.example.work_space_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeY4XZ_y7FItR1SjZ0GlWWzPProwwssxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
