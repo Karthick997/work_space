@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:work_space_project/widget/small_text.dart';
 import 'package:work_space_project/widget/string.dart';
-
 import '../constant.dart';
+import '../date_picker.dart';
 
 class AddInventoryScreen extends StatefulWidget {
   const AddInventoryScreen({Key? key}) : super(key: key);
@@ -14,22 +14,6 @@ class AddInventoryScreen extends StatefulWidget {
 class _AddInventoryScreenState extends State<AddInventoryScreen> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController dateOfBirthController = TextEditingController();
-    Future<void> selectDate(BuildContext context) async {
-      DateTime selectedDate = DateTime.now();
-      DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now(),
-      );
-
-      if (picked != null && picked != selectedDate) {
-        dateOfBirthController.text =
-            picked.toString(); // Update the text field value
-      }
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -170,33 +154,7 @@ class _AddInventoryScreenState extends State<AddInventoryScreen> {
         const SizedBox(
           height: 10,
         ),
-        Container(
-          width: MediaQuery.of(context).size.width / 0.2,
-          height: 48,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            cursorColor: const Color(0xff165a72), // Set the cursor color here
-            decoration: InputDecoration(
-              fillColor: Colors.grey[300],
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-              border: InputBorder.none,
-              suffixIcon: GestureDetector(
-                  onTap: () {
-                    selectDate(context);
-                  },
-                  child: Icon(
-                    Icons.calendar_month_outlined,
-                    color: primaryColor,
-                    size: 20,
-                  )),
-            ),
-          ),
-        ),
+        const DatePickerTextField(),
         const SizedBox(
           height: 10,
         ),

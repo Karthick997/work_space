@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:work_space_project/widget/constant.dart';
 import 'package:work_space_project/widget/profile_screen.dart';
 import 'package:work_space_project/widget/task_screens/task_screen.dart';
-
 import 'dashboard_screen.dart';
-import 'inventory_screeens/inventry_screen.dart';
+import 'inventory_screens/inventory_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({Key? key}) : super(key: key);
@@ -55,7 +54,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
                 curve: Curves.ease);
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard_outlined),
             label: 'Dashboard',

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work_space_project/UI_Screen/verification_screen.dart';
 import 'package:work_space_project/widget/constant.dart';
@@ -74,49 +75,46 @@ class _LogInScreenState extends State<LogInScreen> {
               const SizedBox(
                 height: 30,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.1,
-                height: 55,
-                decoration: BoxDecoration(
-                    color: const Color(0xffF8F8F8),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: phoneController,
-                        onChanged: (value) {
-                          setState(() {
-                            phone = value;
-                          });
-                        },
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Icon(Icons.phone,
-                                color: primaryColor, size: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: primaryColor, width: 0.5)),
+                        child: IntlPhoneField(
+                          cursorColor: primaryColor,
+                          cursorHeight: 20,
+                          controller: phoneController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            counterText: '', // Remove the "0/10" text
                           ),
-                          hintText: "your Phone Number",
-                          hintStyle: const TextStyle(
-                              fontFamily: MyStrings.poppins, fontSize: 14),
-                          border: InputBorder.none,
+                          initialCountryCode: 'IN',
+                          onChanged: (phone) {
+                            // You can still listen to changes here if needed
+                            if (kDebugMode) {
+                              print(phone.completeNumber);
+                            }
+                          },
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 20,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.1,
-                height: 45,
+                height: 65,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff285C4F),
@@ -125,6 +123,36 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   onPressed: () async {
+                    String phone = phoneController.text.trim();
+                    if (phone.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text(
+                          'Please enter your phone number',
+                          style: TextStyle(fontFamily: MyStrings.poppins),
+                        )),
+                      );
+                      return; // Exit onPressed function
+                    }
+                    if (phone.length < 10) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Please enter a valid phone number',
+                                style:
+                                    TextStyle(fontFamily: MyStrings.poppins))),
+                      );
+                      return; // Exit onPressed function
+                    }
+                    if (phone.length != 10) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Please enter a valid phone number',
+                                style:
+                                    TextStyle(fontFamily: MyStrings.poppins))),
+                      );
+                      return; // Exit onPressed function
+                    }
+
                     // startLoader(); // Moved inside onPressed
                     if (kDebugMode) {
                       print('send OTP${countryCode.text + phone}');
@@ -136,8 +164,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       verificationFailed: (FirebaseAuthException e) {},
                       codeSent: (String verificationId, int? resendToken) {
                         LogInScreen.verify = verificationId;
-
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => OtpVerifyScreen(
@@ -145,7 +172,9 @@ class _LogInScreenState extends State<LogInScreen> {
                               countryCode: countryCode.text,
                             ),
                           ),
-                        ); // Navigate to OTP screen
+                        );
+
+                        // Navigate to OTP screen
                       },
                       codeAutoRetrievalTimeout: (String verificationId) {},
                     );

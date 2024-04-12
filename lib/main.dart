@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:work_space_project/UI_Screen/login_screen.dart';
 import 'package:work_space_project/widget/bottomnavigationbar_screen.dart';
+import 'UI_Screen/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,10 +18,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (const MaterialApp(
+    return ( MaterialApp(
       initialRoute: 'phone',
       debugShowCheckedModeBanner: false,
-      home: BottomNavigationBarScreen(),
+      home: SplashScreen(),
       // routes: {
       //   'phone': (context) => MyPhone(),
       //   'verify': (context) => MyVerify(),

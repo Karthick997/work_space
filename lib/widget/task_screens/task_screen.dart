@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:work_space_project/widget/constant.dart';
 import 'package:work_space_project/widget/small_text.dart';
 import 'package:work_space_project/widget/string.dart';
 import 'package:intl/intl.dart';
-
-import 'createtask_screen.dart';
+import 'create_task_screen.dart';
 
 class TaskList {
   final String title;
@@ -33,37 +33,37 @@ class _TaskScreenState extends State<TaskScreen> {
   final List<TaskList> taskList = [
     TaskList(
       title: "Mens Combo",
-      status: "completed ",
+      status: "Completed ",
       name: "karthick",
-      priority: "low priority ",
+      priority: "Low priority ",
       date: "09 may 2023 ",
     ),
     TaskList(
       title: "womens Combo",
       status: "In progress ",
       name: "praveen",
-      priority: "medium priority ",
+      priority: "Medium priority ",
       date: "09 may 2023 ",
     ),
     TaskList(
       title: "Mens Combo",
-      status: "completed ",
+      status: "Completed ",
       name: "karthick",
-      priority: "high priority ",
+      priority: "High priority ",
       date: "09 may 2023 ",
     ),
     TaskList(
       title: "womens Combo",
       status: "In progress ",
       name: "karthick",
-      priority: "low priority ",
+      priority: "Low priority ",
       date: "09 may 2023 ",
     ),
     TaskList(
       title: "Mens Combo",
-      status: "completed ",
+      status: "Completed ",
       name: "karthick",
-      priority: "low priority ",
+      priority: "Low priority ",
       date: "09 may 2023 ",
     ),
   ];
@@ -81,21 +81,6 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController dateOfBirthController = TextEditingController();
-    Future<void> selectDate(BuildContext context) async {
-      DateTime selectedDate = DateTime.now();
-      DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now(),
-      );
-
-      if (picked != null && picked != selectedDate) {
-        dateOfBirthController.text = picked.toString();
-      }
-    }
-
     _selectedDate ??= DateTime.now();
     return SafeArea(
       child: Scaffold(
@@ -143,26 +128,30 @@ class _TaskScreenState extends State<TaskScreen> {
                           isScrollControlled: true,
                           builder: (BuildContext context) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: bottomSheetHeight,
                                 child: SingleChildScrollView(
-                                  child: Column(
-                                    // crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SmallText(
-                                          text: MyStrings.createNewTask,
-                                          color: primaryColor,
-                                          size: 20,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: MyStrings.poppins),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      const CreateTaskScreen(),
-                                    ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      // crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SmallText(
+                                            text: MyStrings.createNewTask,
+                                            color: primaryColor,
+                                            size: 20,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: MyStrings.poppins),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        const CreateTaskScreen(),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -187,73 +176,76 @@ class _TaskScreenState extends State<TaskScreen> {
               const SizedBox(
                 height: 15,
               ),
-              SizedBox(
-                height: 55,
-                child: ListView.builder(
-                  controller: _scrollController,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount:
-                      DateTime(_selectedDate!.year, _selectedDate!.month + 1, 0)
-                          .day,
-                  itemBuilder: (BuildContext context, int index) {
-                    DateTime dateTime = DateTime(
-                        _selectedDate!.year, _selectedDate!.month, index + 1);
-                    String dayName = DateFormat('EEE').format(dateTime);
-                    String day = (index + 1).toString();
-                    Color color = _selectedIndices.contains(index)
-                        ? calenderScColor
-                        : Colors.white;
-                    Color textColor = _selectedIndices.contains(index)
-                        ? primaryColor
-                        : primaryColor;
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: SizedBox(
+                  height: 55,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: DateTime(
+                            _selectedDate!.year, _selectedDate!.month + 1, 0)
+                        .day,
+                    itemBuilder: (BuildContext context, int index) {
+                      DateTime dateTime = DateTime(
+                          _selectedDate!.year, _selectedDate!.month, index + 1);
+                      String dayName = DateFormat('EEE').format(dateTime);
+                      String day = (index + 1).toString();
+                      Color color = _selectedIndices.contains(index)
+                          ? calenderScColor
+                          : Colors.white;
+                      Color textColor = _selectedIndices.contains(index)
+                          ? primaryColor
+                          : primaryColor;
 
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (_selectedIndices.contains(index)) {
-                            _selectedIndices.remove(index);
-                          } else {
-                            _selectedIndices.add(index);
-                          }
-                        });
-                        _scrollToSelectedDate(index);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        width: 50,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: color,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              dayName,
-                              style: TextStyle(
-                                fontFamily: MyStrings.poppins,
-                                fontSize: 12,
-                                color: textColor,
-                              ),
-                            ),
-                            Text(
-                              day,
-                              style: TextStyle(
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (_selectedIndices.contains(index)) {
+                              _selectedIndices.remove(index);
+                            } else {
+                              _selectedIndices.add(index);
+                            }
+                          });
+                          _scrollToSelectedDate(index);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          width: 50,
+                          height: 55,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: color,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                dayName,
+                                style: TextStyle(
                                   fontFamily: MyStrings.poppins,
                                   fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: textColor),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                          ],
+                                  color: textColor,
+                                ),
+                              ),
+                              Text(
+                                day,
+                                style: TextStyle(
+                                    fontFamily: MyStrings.poppins,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: textColor),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
               const SizedBox(
@@ -409,7 +401,7 @@ class _TaskScreenState extends State<TaskScreen> {
               ),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -418,18 +410,20 @@ class _TaskScreenState extends State<TaskScreen> {
                         topRight: Radius.circular(25),
                         topLeft: Radius.circular(25))),
                 child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: taskList.length,
                   itemBuilder: (context, index) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           margin: const EdgeInsets.only(
                             bottom: 15,
                           ),
-                          padding: const EdgeInsets.all(12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 20),
                           width: MediaQuery.of(context).size.width,
                           height: 130,
                           decoration: BoxDecoration(
@@ -494,19 +488,79 @@ class _TaskScreenState extends State<TaskScreen> {
                                             width: 100,
                                             height: 25,
                                             decoration: BoxDecoration(
-                                                color: const Color(0xffFFF8F8),
-                                                border: Border.all(
-                                                    color:
-                                                        const Color(0xffEC2013),
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(18)),
+                                              color: taskList[index]
+                                                      .priority
+                                                      .toLowerCase()
+                                                      .contains("low")
+                                                  ? const Color(
+                                                      0xffFFF8F8) // Lite red
+                                                  : taskList[index]
+                                                          .priority
+                                                          .toLowerCase()
+                                                          .contains("medium")
+                                                      ? const Color(
+                                                          0xffFFF7E1) // Lite yellow
+                                                      : taskList[index]
+                                                              .priority
+                                                              .toLowerCase()
+                                                              .contains("high")
+                                                          ? const Color(
+                                                              0xffF2FFF4) // Lite green
+                                                          : Colors
+                                                              .white, // Default color
+                                              border: Border.all(
+                                                color: taskList[index]
+                                                        .priority
+                                                        .toLowerCase()
+                                                        .contains("low")
+                                                    ? const Color(
+                                                        0xffEC2013) // Red border
+                                                    : taskList[index]
+                                                            .priority
+                                                            .toLowerCase()
+                                                            .contains("medium")
+                                                        ? const Color(
+                                                            0xffF7C707) // Yellow border
+                                                        : taskList[index]
+                                                                .priority
+                                                                .toLowerCase()
+                                                                .contains(
+                                                                    "high")
+                                                            ? const Color(
+                                                                0xff6EBE45) // Green border
+                                                            : Colors
+                                                                .grey, // Default border color
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                            ),
                                             child: Center(
                                               child: SmallText(
                                                 text: taskList[index].priority,
                                                 fontFamily: MyStrings.poppins,
                                                 fontWeight: FontWeight.w400,
-                                                color: const Color(0xffEC2013),
+                                                color: taskList[index]
+                                                        .priority
+                                                        .toLowerCase()
+                                                        .contains("low")
+                                                    ? Colors
+                                                        .red // Red text color
+                                                    : taskList[index]
+                                                            .priority
+                                                            .toLowerCase()
+                                                            .contains("medium")
+                                                        ? Colors
+                                                            .yellow // Yellow text color
+                                                        : taskList[index]
+                                                                .priority
+                                                                .toLowerCase()
+                                                                .contains(
+                                                                    "high")
+                                                            ? Colors
+                                                                .green // Green text color
+                                                            : Colors
+                                                                .black, // Default text color
                                                 size: 10,
                                               ),
                                             ),
@@ -523,51 +577,62 @@ class _TaskScreenState extends State<TaskScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Container(
-                                    width: 80,
+                                    width: 90,
                                     height: 25,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(18),
-                                      color: highContainerColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: taskList[index]
+                                              .status
+                                              .toLowerCase()
+                                              .contains("completed")
+                                          ? const Color(
+                                              0xffCCEED1) // Green for completed
+                                          : taskList[index]
+                                                  .status
+                                                  .toLowerCase()
+                                                  .contains("in progress")
+                                              ? const Color(
+                                                  0xffBFE4FF) // Blue for in progress
+                                              : Colors.white, // Default color
                                     ),
                                     child: Center(
                                       child: SmallText(
-                                          text: taskList[index].status,
-                                          color: blackColor,
-                                          size: 10,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: MyStrings.poppins),
+                                        text: taskList[index].status,
+                                        color: Colors
+                                            .black, // Black text color for all statuses
+                                        size: 10,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: MyStrings.poppins,
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 34,
-                                  ),
+                                  const SizedBox(height: 34),
                                   Container(
                                     width: 120,
                                     height: 30,
                                     decoration: BoxDecoration(
-                                        color: const Color(0xffF7F7F7),
-                                        borderRadius:
-                                            BorderRadius.circular(18)),
+                                      color: const Color(0xffF7F7F7),
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         Icon(Icons.more_time_rounded,
                                             color: blackColor, size: 20),
-                                        const SizedBox(
-                                          width: 3,
-                                        ),
+                                        const SizedBox(width: 3),
                                         SmallText(
-                                            text: MyStrings.date,
-                                            color: blackColor,
-                                            size: 10,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: MyStrings.poppins),
+                                          text: MyStrings.date,
+                                          color: blackColor,
+                                          size: 10,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: MyStrings.poppins,
+                                        ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),

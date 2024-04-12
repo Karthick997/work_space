@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:work_space_project/widget/small_text.dart';
 import 'package:work_space_project/widget/string.dart';
@@ -30,17 +29,20 @@ class _ViewInventoryScreenState extends State<ViewInventoryScreen> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
                   child: Stack(
                     children: [
                       ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.asset("asset/images/Dress 1 1.png")),
+                          child: Image.asset(
+                            "asset/images/Dress 1 1.png",
+                          )),
                       Positioned(
                         top: 0,
                         right: 0,
@@ -140,7 +142,7 @@ class _ViewInventoryScreenState extends State<ViewInventoryScreen> {
                         left: 0,
                         right: 0,
                         child: Container(
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                               color: Colors.black54,
                               borderRadius: BorderRadius.circular(12)),

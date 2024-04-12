@@ -49,7 +49,7 @@ class _SortScreenState extends State<SortScreen> {
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(color: Colors.white),
+                    decoration: const BoxDecoration(),
                     child: Row(
                       children: [
                         Icon(
@@ -62,7 +62,7 @@ class _SortScreenState extends State<SortScreen> {
                           radioTexts[i -
                               1], // Access the text from the list based on the index
                           style:
-                              Theme.of(context).textTheme.subtitle1?.copyWith(
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
                                     fontFamily: MyStrings.poppins,
                                     color: i == 4 ? blackColor : blackColor,
                                   ),
