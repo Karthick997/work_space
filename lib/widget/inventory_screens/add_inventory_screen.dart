@@ -331,45 +331,17 @@ class _AddInventoryScreenState extends State<AddInventoryScreen> {
         const SizedBox(
           height: 10,
         ),
-        const SmallText(
-          text: MyStrings.image,
-          color: Color(0xffACACAC),
-          fontFamily: MyStrings.poppins,
-          size: 13,
-          fontWeight: FontWeight.w500,
-        ),
+        // const SmallText(
+        //   text: MyStrings.image,
+        //   color: Color(0xffACACAC),
+        //   fontFamily: MyStrings.poppins,
+        //   size: 13,
+        //   fontWeight: FontWeight.w500,
+        // ),
         const SizedBox(height: 10),
         // ImageUploadScreen(),
         const SizedBox(
           height: 10,
-        ),
-        const SmallText(
-          text: MyStrings.description,
-          color: Color(0xffACACAC),
-          fontFamily: MyStrings.poppins,
-          size: 13,
-          fontWeight: FontWeight.w500,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width / 0.2,
-          height: 90,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            cursorColor: const Color(0xff165a72), // Set the cursor color here
-            decoration: InputDecoration(
-              fillColor: Colors.grey[300],
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-              border: InputBorder.none,
-            ),
-          ),
         ),
         const SizedBox(
           height: 25,

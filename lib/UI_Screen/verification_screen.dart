@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work_space_project/UI_Screen/login_screen.dart';
@@ -13,6 +14,7 @@ import '../widget/bottomnavigationbar_screen.dart';
 class OtpVerifyScreen extends StatefulWidget {
   final String countryCode;
   final String phoneNumber;
+
   const OtpVerifyScreen(
       {Key? key, required this.phoneNumber, required this.countryCode})
       : super(key: key);
@@ -29,6 +31,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
   late Timer _timer;
   int _start = 30;
   var code = "";
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -125,154 +128,175 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Colors.black,
-          ),
-        ),
         elevation: 0,
       ),
-      body: Container(
-        margin: const EdgeInsets.only(left: 25, right: 25),
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 25,
-              ),
-              const Text(
-                "Phone Verification",
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: MyStrings.poppins),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "We need to register your phone without getting started!",
-                style: TextStyle(
-                  fontFamily: MyStrings.poppins,
-                  fontSize: 16,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Pinput(
-                length: 6,
-                showCursor: true,
-                onChanged: (value) {
-                  code = value;
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Column(
+      body: Stack(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(left: 25, right: 25),
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const Text(
+                    "Phone Verification",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: MyStrings.poppins),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "We need to register your phone without getting started!",
+                    style: TextStyle(
+                      fontFamily: MyStrings.poppins,
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Pinput(
+                    length: 6,
+                    showCursor: true,
+                    onChanged: (value) {
+                      code = value;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
                     children: [
-                      const SmallText(
-                        text: MyStrings.ifYouDidTNotRecevicedACode,
-                        fontFamily: MyStrings.poppins,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        size: 13,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SmallText(
+                            text: MyStrings.ifYouDidTNotRecevicedACode,
+                            fontFamily: MyStrings.poppins,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            size: 13,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          _start == 0
+                              ? GestureDetector(
+                                  onTap: () {
+                                    resendOtp(
+                                        widget.phoneNumber, widget.countryCode);
+                                  },
+                                  child: const SmallText(
+                                    text: 'Resend',
+                                    fontFamily: MyStrings.poppins,
+                                    color: Color(0xffFFA800),
+                                    fontWeight: FontWeight.w500,
+                                    size: 13,
+                                  ),
+                                )
+                              : Text(" time : 00:$_start ",
+                                  style: const TextStyle(
+                                    fontFamily: MyStrings.poppins,
+                                    color: Color(0xffFFA800),
+                                  ))
+                        ],
                       ),
                       const SizedBox(
-                        width: 4,
+                        height: 20,
                       ),
-                      _start == 0
-                          ? GestureDetector(
-                              onTap: () {
-                                resendOtp(
-                                    widget.phoneNumber, widget.countryCode);
-                              },
-                              child: const SmallText(
-                                text: 'Resend',
-                                fontFamily: MyStrings.poppins,
-                                color: Color(0xffFFA800),
-                                fontWeight: FontWeight.w500,
-                                size: 13,
-                              ),
-                            )
-                          : Text(" time : 00:$_start ",
-                              style: const TextStyle(
-                                fontFamily: MyStrings.poppins,
-                                color: Color(0xffFFA800),
-                              ))
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SmallText(
-                  text: MyStrings.backToLogin,
-                  fontFamily: MyStrings.poppins,
-                  fontWeight: FontWeight.w500,
-                  size: 13,
-                  color: primaryColor),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff285C4F),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LogInScreen()),
+                      );
+                    },
+                    child: SmallText(
+                        text: MyStrings.backToLogin,
+                        fontFamily: MyStrings.poppins,
+                        fontWeight: FontWeight.w500,
+                        size: 13,
+                        color: primaryColor),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 65,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              try {
+                                PhoneAuthCredential credential =
+                                    PhoneAuthProvider.credential(
+                                  verificationId: LogInScreen.verify,
+                                  smsCode: code,
+                                );
+                                await auth.signInWithCredential(credential);
+                                if (mounted) {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BottomNavigationBarScreen()),
+                                    ModalRoute.withName('home'),
+                                  );
+                                }
+                              } catch (e) {
+                                if (kDebugMode) {
+                                  print("wrong otp");
+                                }
+                              }
+                              await Future.delayed(const Duration(seconds: 1));
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                      child: Text("Verify Phone Number",
+                          style: TextStyle(
+                              fontFamily: MyStrings.poppins,
+                              fontSize: 14,
+                              color: whiteColor)),
                     ),
                   ),
-                  onPressed: () async {
-                    try {
-                      PhoneAuthCredential credential =
-                          PhoneAuthProvider.credential(
-                        verificationId: LogInScreen.verify,
-                        smsCode: code,
-                      );
-                      await auth.signInWithCredential(credential);
-                      if (mounted) {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const BottomNavigationBarScreen()),
-                          ModalRoute.withName('home'),
-                        );
-                      }
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print("wrong otp");
-                      }
-                    }
-                  },
-                  child: Text("Verify Phone Number",
-                      style: TextStyle(
-                          fontFamily: MyStrings.poppins,
-                          fontSize: 14,
-                          color: whiteColor)),
+                ],
+              ),
+            ),
+          ),
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
+        ],
       ),
     );
   }

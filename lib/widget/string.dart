@@ -78,12 +78,12 @@ class MyStrings {
   static const String recently = 'Recently';
   static const String comboCasualMenswear = 'Combo Casual Mens wear';
   static const String jeansareusuallyconsideredbusinesscasual =
-      'Jeans are usually considered business casual,';
+      'Jeans are usually considered business casual';
   static const String withsomeexceptions = 'with some exceptions.';
   static const String quantityno = 'Quantity :';
   static const String number = '\$800';
   static const String no = '129';
-  static const String unitamount = 'unit price :';
+  static const String unitamount = 'Unit Price :';
   static const String chennai = 'chennai';
   static const String size = 'size';
   static const String men = 'Men';

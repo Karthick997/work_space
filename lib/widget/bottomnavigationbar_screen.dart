@@ -22,7 +22,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   void initState() {
     super.initState();
     _pages = [
-      const DashBoardScreen(),
+       DashBoardScreen(),
       const TaskScreen(),
       const InventoryScreen(),
       const ProfileScreen(),

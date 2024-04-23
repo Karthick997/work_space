@@ -40,7 +40,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
         controller: _controller,
         // readOnly: true,
         keyboardType: TextInputType.emailAddress,
-        cursorColor: const Color(0xff165a72), // Set the cursor color here
+        cursorColor: const Color(0xff165a72),
         decoration: InputDecoration(
           fillColor: Colors.grey[300],
           contentPadding:

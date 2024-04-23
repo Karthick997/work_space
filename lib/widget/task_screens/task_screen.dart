@@ -1,26 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:work_space_project/widget/constant.dart';
 import 'package:work_space_project/widget/small_text.dart';
 import 'package:work_space_project/widget/string.dart';
-import 'package:intl/intl.dart';
+import 'package:work_space_project/widget/task_screens/tasklist_screen.dart';
+import 'calender_screen.dart';
 import 'create_task_screen.dart';
-
-class TaskList {
-  final String title;
-  final String status;
-  final String name;
-  final String priority;
-  final String date;
-
-  TaskList({
-    required this.title,
-    required this.status,
-    required this.name,
-    required this.priority,
-    required this.date,
-  });
-}
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({Key? key}) : super(key: key);
@@ -30,73 +14,26 @@ class TaskScreen extends StatefulWidget {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  final List<TaskList> taskList = [
-    TaskList(
-      title: "Mens Combo",
-      status: "Completed ",
-      name: "karthick",
-      priority: "Low priority ",
-      date: "09 may 2023 ",
-    ),
-    TaskList(
-      title: "womens Combo",
-      status: "In progress ",
-      name: "praveen",
-      priority: "Medium priority ",
-      date: "09 may 2023 ",
-    ),
-    TaskList(
-      title: "Mens Combo",
-      status: "Completed ",
-      name: "karthick",
-      priority: "High priority ",
-      date: "09 may 2023 ",
-    ),
-    TaskList(
-      title: "womens Combo",
-      status: "In progress ",
-      name: "karthick",
-      priority: "Low priority ",
-      date: "09 may 2023 ",
-    ),
-    TaskList(
-      title: "Mens Combo",
-      status: "Completed ",
-      name: "karthick",
-      priority: "Low priority ",
-      date: "09 may 2023 ",
-    ),
-  ];
-  ScrollController? _scrollController;
-
-  DateTime? _selectedDate;
-
-  final List<int> _selectedIndices = [];
-
   @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-  }
-
   @override
   Widget build(BuildContext context) {
-    _selectedDate ??= DateTime.now();
     return SafeArea(
       child: Scaffold(
         backgroundColor: primaryColor,
         body: SingleChildScrollView(
-          // physics: NeverScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset("asset/images/Ellipse 42.png"),
+                    Image.asset(
+                      "asset/images/Ellipse 42.png",
+                      height: 40,
+                    ),
                     Row(
                       children: [
                         Column(
@@ -160,8 +97,8 @@ class _TaskScreenState extends State<TaskScreen> {
                         );
                       },
                       icon: Container(
-                        width: 30,
-                        height: 30,
+                        width: 40,
+                        height: 40,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Color(0xffF0F0F0),
@@ -169,85 +106,11 @@ class _TaskScreenState extends State<TaskScreen> {
                         child: const Icon(Icons.add,
                             color: Color(0xffA8A8A8), size: 20),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5),
-                child: SizedBox(
-                  height: 55,
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: DateTime(
-                            _selectedDate!.year, _selectedDate!.month + 1, 0)
-                        .day,
-                    itemBuilder: (BuildContext context, int index) {
-                      DateTime dateTime = DateTime(
-                          _selectedDate!.year, _selectedDate!.month, index + 1);
-                      String dayName = DateFormat('EEE').format(dateTime);
-                      String day = (index + 1).toString();
-                      Color color = _selectedIndices.contains(index)
-                          ? calenderScColor
-                          : Colors.white;
-                      Color textColor = _selectedIndices.contains(index)
-                          ? primaryColor
-                          : primaryColor;
-
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (_selectedIndices.contains(index)) {
-                              _selectedIndices.remove(index);
-                            } else {
-                              _selectedIndices.add(index);
-                            }
-                          });
-                          _scrollToSelectedDate(index);
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          width: 50,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: color,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                dayName,
-                                style: TextStyle(
-                                  fontFamily: MyStrings.poppins,
-                                  fontSize: 12,
-                                  color: textColor,
-                                ),
-                              ),
-                              Text(
-                                day,
-                                style: TextStyle(
-                                    fontFamily: MyStrings.poppins,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              const CalenderScreen(),
               const SizedBox(
                 height: 15,
               ),
@@ -271,7 +134,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       height: 30,
                       width: 80,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(17),
+                        borderRadius: BorderRadius.circular(8),
                         color: whiteColor,
                       ),
                       child: Row(
@@ -313,7 +176,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       height: 30,
                       width: 80,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(17),
+                        borderRadius: BorderRadius.circular(8),
                         color: whiteColor,
                       ),
                       child: Row(
@@ -355,7 +218,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       height: 30,
                       width: 80,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(17),
+                        borderRadius: BorderRadius.circular(8),
                         color: whiteColor,
                       ),
                       child: Row(
@@ -394,266 +257,16 @@ class _TaskScreenState extends State<TaskScreen> {
                       ),
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 20,
                     ),
                   ],
                 ),
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: whiteColor,
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(25),
-                        topLeft: Radius.circular(25))),
-                child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: taskList.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            bottom: 15,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 20),
-                          width: MediaQuery.of(context).size.width,
-                          height: 130,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: primaryColor,
-                                blurRadius: 3, // soften the shadow
-                                spreadRadius: 0, //extend the shadow
-                                offset: const Offset(
-                                  0,
-                                  0.5,
-                                ),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(15),
-                            color: whiteColor,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SmallText(
-                                      text: taskList[index].title,
-                                      fontFamily: MyStrings.poppins,
-                                      fontWeight: FontWeight.w600,
-                                      size: 16,
-                                      color: blackColor),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const SmallText(
-                                              text: MyStrings.assignTo,
-                                              fontFamily: MyStrings.poppins,
-                                              fontWeight: FontWeight.w300,
-                                              size: 13,
-                                              color: Color(0xffA09696)),
-                                          SmallText(
-                                              text: taskList[index].name,
-                                              fontFamily: MyStrings.poppins,
-                                              fontWeight: FontWeight.w400,
-                                              size: 13,
-                                              color: blackColor),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                            width: 100,
-                                            height: 25,
-                                            decoration: BoxDecoration(
-                                              color: taskList[index]
-                                                      .priority
-                                                      .toLowerCase()
-                                                      .contains("low")
-                                                  ? const Color(
-                                                      0xffFFF8F8) // Lite red
-                                                  : taskList[index]
-                                                          .priority
-                                                          .toLowerCase()
-                                                          .contains("medium")
-                                                      ? const Color(
-                                                          0xffFFF7E1) // Lite yellow
-                                                      : taskList[index]
-                                                              .priority
-                                                              .toLowerCase()
-                                                              .contains("high")
-                                                          ? const Color(
-                                                              0xffF2FFF4) // Lite green
-                                                          : Colors
-                                                              .white, // Default color
-                                              border: Border.all(
-                                                color: taskList[index]
-                                                        .priority
-                                                        .toLowerCase()
-                                                        .contains("low")
-                                                    ? const Color(
-                                                        0xffEC2013) // Red border
-                                                    : taskList[index]
-                                                            .priority
-                                                            .toLowerCase()
-                                                            .contains("medium")
-                                                        ? const Color(
-                                                            0xffF7C707) // Yellow border
-                                                        : taskList[index]
-                                                                .priority
-                                                                .toLowerCase()
-                                                                .contains(
-                                                                    "high")
-                                                            ? const Color(
-                                                                0xff6EBE45) // Green border
-                                                            : Colors
-                                                                .grey, // Default border color
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(18),
-                                            ),
-                                            child: Center(
-                                              child: SmallText(
-                                                text: taskList[index].priority,
-                                                fontFamily: MyStrings.poppins,
-                                                fontWeight: FontWeight.w400,
-                                                color: taskList[index]
-                                                        .priority
-                                                        .toLowerCase()
-                                                        .contains("low")
-                                                    ? Colors
-                                                        .red // Red text color
-                                                    : taskList[index]
-                                                            .priority
-                                                            .toLowerCase()
-                                                            .contains("medium")
-                                                        ? Colors
-                                                            .yellow // Yellow text color
-                                                        : taskList[index]
-                                                                .priority
-                                                                .toLowerCase()
-                                                                .contains(
-                                                                    "high")
-                                                            ? Colors
-                                                                .green // Green text color
-                                                            : Colors
-                                                                .black, // Default text color
-                                                size: 10,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                              width: 10), // Add space here
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    width: 90,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: taskList[index]
-                                              .status
-                                              .toLowerCase()
-                                              .contains("completed")
-                                          ? const Color(
-                                              0xffCCEED1) // Green for completed
-                                          : taskList[index]
-                                                  .status
-                                                  .toLowerCase()
-                                                  .contains("in progress")
-                                              ? const Color(
-                                                  0xffBFE4FF) // Blue for in progress
-                                              : Colors.white, // Default color
-                                    ),
-                                    child: Center(
-                                      child: SmallText(
-                                        text: taskList[index].status,
-                                        color: Colors
-                                            .black, // Black text color for all statuses
-                                        size: 10,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: MyStrings.poppins,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 34),
-                                  Container(
-                                    width: 120,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffF7F7F7),
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.more_time_rounded,
-                                            color: blackColor, size: 20),
-                                        const SizedBox(width: 3),
-                                        SmallText(
-                                          text: MyStrings.date,
-                                          color: blackColor,
-                                          size: 10,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: MyStrings.poppins,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              )
+              const TaskListScreen(),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  void _scrollToSelectedDate(int index) {
-    double offset = index * 60.0;
-    _scrollController!.animateTo(
-      offset,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
     );
   }
 }

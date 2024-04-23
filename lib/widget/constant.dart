@@ -15,7 +15,7 @@ int limit = 20;
 SharedPreferences? prefs;
 
 // Color
-Color primaryColor = const Color(0xff285C4F);
+Color primaryColor = const Color(0xff008B84);
 Color secondaryColor = const Color(0xffE9CE96);
 Color whiteColor = Colors.white;
 Color textColor = const Color(0xff767977);

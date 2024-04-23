@@ -10,13 +10,30 @@ class ProfileScreen extends StatelessWidget {
 
   Future<void> _signOut(BuildContext context) async {
     try {
+      // Show a basic loader
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: primaryColor,
+            ),
+          );
+        },
+      );
+
       await FirebaseAuth.instance.signOut();
+      // Delay for 2 seconds
+      await Future.delayed(const Duration(seconds: 1));
+      Navigator.pop(context); // Close the loader dialog
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text(
-          'Successfully Logout',
-          style: TextStyle(fontFamily: MyStrings.poppins),
-        )),
+          content: Text(
+            'Successfully Logout',
+            style: TextStyle(fontFamily: MyStrings.poppins),
+          ),
+        ),
       );
       Navigator.pushReplacement(
         context,
@@ -25,6 +42,7 @@ class ProfileScreen extends StatelessWidget {
         ),
       );
     } catch (e) {
+      Navigator.pop(context); // Close the loader dialog
       if (kDebugMode) {
         print("Error signing out: $e");
       }
@@ -36,14 +54,6 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true, // Disable automatic back button
-        title: Text(
-          "profile",
-          style: TextStyle(
-            fontFamily: MyStrings.poppins,
-            color: primaryColor,
-            fontSize: 18,
-          ),
-        ),
         // leading: IconButton(
         //   icon: Icon(Icons.arrow_back),
         //   onPressed: () {
@@ -61,6 +71,16 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      body: Center(
+        child: Text(
+          "profile",
+          style: TextStyle(
+            fontFamily: MyStrings.poppins,
+            color: primaryColor,
+            fontSize: 18,
+          ),
+        ),
       ),
     );
   }

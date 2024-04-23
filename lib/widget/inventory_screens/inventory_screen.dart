@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:work_space_project/widget/small_text.dart';
@@ -5,7 +6,6 @@ import 'package:work_space_project/widget/inventory_screens/sort_screen.dart';
 import 'package:work_space_project/widget/string.dart';
 import 'package:work_space_project/widget/inventory_screens/view_inventory_screen.dart';
 import '../constant.dart';
-import '../profile_screen.dart';
 import 'add_inventory_screen.dart';
 
 class InventoryScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class InventoryScreen extends StatefulWidget {
 }
 
 class _InventoryScreenState extends State<InventoryScreen> {
-  List<bool> isFavoriteList = List.generate(8, (index) => false);
+  // List<bool> isFavoriteList = List.generate(8, (index) => false);
   bool isFavorite = false;
   final TextEditingController _controller = TextEditingController();
 
@@ -30,11 +30,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset("asset/images/Ellipse 42.png"),
+                    Image.asset(
+                      "asset/images/Ellipse 42.png",
+                      height: 40,
+                    ),
                     Row(
                       children: [
                         Column(
@@ -98,8 +101,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
                         );
                       },
                       icon: Container(
-                        width: 30,
-                        height: 30,
+                        width: 40,
+                        height: 40,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Color(0xffF0F0F0),
@@ -118,31 +121,30 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 width: MediaQuery.of(context).size.width / 1.1,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(12),
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  cursorColor:
-                      const Color(0xff165a72), // Set the cursor color here
+                  cursorColor: primaryColor, // Set the cursor color here
                   decoration: InputDecoration(
                     hintText: "Search inventory",
                     hintStyle: const TextStyle(
                         fontFamily: MyStrings.poppins,
                         color: Color(0xffC5B8B8)),
-                    fillColor: Colors.grey[300],
+                    fillColor: whiteColor,
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 16),
                     border: InputBorder.none,
                     prefixIcon: Icon(
                       Icons.search_rounded,
                       color: blackColor,
-                      size: 20,
+                      size: 25,
                     ),
                     suffixIcon: Icon(
                       Icons.keyboard_voice_rounded,
                       color: blackColor,
-                      size: 20,
+                      size: 25,
                     ),
                   ),
                 ),
@@ -224,8 +226,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                             child: TextFormField(
                                               keyboardType:
                                                   TextInputType.emailAddress,
-                                              cursorColor: const Color(
-                                                  0xff165a72), // Set the cursor color here
+                                              cursorColor:
+                                                  const Color(0xff165a72),
+                                              // Set the cursor color here
                                               decoration: InputDecoration(
                                                 hintText: "Choose the location",
                                                 hintStyle: const TextStyle(
@@ -415,17 +418,17 @@ class _InventoryScreenState extends State<InventoryScreen> {
                               SmallText(
                                 text: MyStrings.recently,
                                 color: blackColor,
-                                size: 10,
+                                size: 14,
                                 fontFamily: MyStrings.poppins,
                                 fontWeight: FontWeight.w600,
                               ),
                               const SizedBox(
                                 width: 5,
                               ),
-                              const Icon(
+                              Icon(
                                 Icons.swap_vert_rounded,
                                 size: 20,
-                                color: Colors.black,
+                                color: blackColor,
                               ),
                             ],
                           ),
@@ -437,7 +440,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        // physics: const AlwaysScrollableScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: 8,
                         itemBuilder: (context, index) {
@@ -451,353 +454,246 @@ class _InventoryScreenState extends State<InventoryScreen> {
                             "asset/images/Dress 1 1.png",
                             "asset/images/dress.png",
                           ];
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                        imagePaths[index % imagePaths.length]),
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    left: 0,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ViewInventoryScreen(),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: whiteColor,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: primaryColor,
+                                        blurRadius: 1.5, // soften the shadow
+                                        spreadRadius: 0.5, //extend the shadow
+                                        offset: const Offset(
+                                          0.5, // Move to right 5  horizontally
+                                          0.5, // Move to bottom 5 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: whiteColor),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.black54,
-                                                ),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      isFavoriteList[index] =
-                                                          !isFavoriteList[
-                                                              index];
-                                                    });
-                                                  },
-                                                  child: Center(
-                                                    child: Icon(
-                                                      isFavoriteList[index]
-                                                          ? Icons.favorite
-                                                          : Icons
-                                                              .favorite_border_outlined,
-                                                      color:
-                                                          isFavoriteList[index]
-                                                              ? Colors.red
-                                                              : Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                  ),
-                                                ),
+                                              SmallText(
+                                                text: MyStrings
+                                                    .comboCasualMenswear,
+                                                color: primaryColor,
+                                                size: 16,
+                                                fontWeight: FontWeight.w300,
+                                                fontFamily: MyStrings.poppins,
+                                              ),
+                                              const SmallText(
+                                                text: MyStrings
+                                                    .jeansareusuallyconsideredbusinesscasual,
+                                                color: Color(0xff8C8282),
+                                                size: 8,
+                                                fontWeight: FontWeight.w300,
+                                                fontFamily: MyStrings.poppins,
+                                              ),
+                                              const SmallText(
+                                                text: MyStrings
+                                                    .withsomeexceptions,
+                                                color: Color(0xff8C8282),
+                                                size: 8,
+                                                fontWeight: FontWeight.w300,
+                                                fontFamily: MyStrings.poppins,
                                               ),
                                               const SizedBox(
-                                                width: 8,
+                                                height: 10,
                                               ),
-                                              Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.black54,
-                                                ),
-                                                child: const Center(
-                                                    child: Icon(
-                                                  Icons.more_vert,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                )),
+                                              Row(
+                                                children: [
+                                                  DottedBorder(
+                                                    radius: const Radius.circular(8),
+                                                    borderType: BorderType.RRect,
+                                                    color: Colors.grey[200]!,
+                                                    strokeWidth: 1,
+                                                    dashPattern: const [3, 3],
+                                                    child: SizedBox(
+                                                      width: 80,
+                                                      height: 25,
+                                                      child: Center(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                          children: [
+                                                            SmallText(
+                                                              text: MyStrings
+                                                                  .quantityno,
+                                                              color: primaryColor,
+                                                              fontFamily:
+                                                              MyStrings
+                                                                  .poppins,
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                              size: 10,
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 5),
+                                                            SmallText(
+                                                              text: MyStrings.no,
+                                                              color: primaryColor,
+                                                              fontFamily:
+                                                              MyStrings
+                                                                  .poppins,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              size: 10,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  DottedBorder(
+                                                    radius: const Radius.circular(8),
+                                                    borderType: BorderType.RRect,
+                                                    color: Colors.grey[200]!,
+                                                    strokeWidth: 1,
+                                                    dashPattern: const [3, 3],
+                                                    child: SizedBox(
+                                                      width: 90,
+                                                      height: 25,
+                                                      child: Center(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                          children: [
+                                                            SmallText(
+                                                              text: MyStrings
+                                                                  .unitamount,
+                                                              color: primaryColor,
+                                                              fontFamily:
+                                                              MyStrings
+                                                                  .poppins,
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                              size: 10,
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 5),
+                                                            SmallText(
+                                                              text: MyStrings.number,
+                                                              color: primaryColor,
+                                                              fontFamily:
+                                                              MyStrings
+                                                                  .poppins,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              size: 10,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(
-                                            height: 30,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                            child: SizedBox(
+                                              height: 60,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                child: Image.asset(
+                                                  imagePaths[index %
+                                                      imagePaths.length],
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const ViewInventoryScreen()),
-                                        );
-                                      },
-                                      child: Center(
-                                        child: Container(
-                                          margin: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                              color: Colors.black54,
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 8),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            SmallText(
-                                                              text: MyStrings
-                                                                  .comboCasualMenswear,
-                                                              color: whiteColor,
-                                                              size: 13,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  MyStrings
-                                                                      .poppins,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SmallText(
-                                                          text: MyStrings
-                                                              .jeansareusuallyconsideredbusinesscasual,
-                                                          color: whiteColor,
-                                                          size: 8,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontFamily:
-                                                              MyStrings.poppins,
-                                                        ),
-                                                        SmallText(
-                                                          text: MyStrings
-                                                              .withsomeexceptions,
-                                                          color: whiteColor,
-                                                          size: 8,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontFamily:
-                                                              MyStrings.poppins,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          width: 75,
-                                                          height: 25,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8),
-                                                              color:
-                                                                  whiteColor),
-                                                          child: Center(
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                SmallText(
-                                                                  text: MyStrings
-                                                                      .quantityno,
-                                                                  color:
-                                                                      blackColor,
-                                                                  fontFamily:
-                                                                      MyStrings
-                                                                          .poppins,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  size: 6,
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                SmallText(
-                                                                  text:
-                                                                      MyStrings
-                                                                          .no,
-                                                                  color:
-                                                                      blackColor,
-                                                                  fontFamily:
-                                                                      MyStrings
-                                                                          .poppins,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  size: 10,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 8,
-                                                        ),
-                                                        Container(
-                                                          width: 75,
-                                                          height: 25,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8),
-                                                              color:
-                                                                  whiteColor),
-                                                          child: Center(
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                SmallText(
-                                                                  text: MyStrings
-                                                                      .unitamount,
-                                                                  color:
-                                                                      blackColor,
-                                                                  fontFamily:
-                                                                      MyStrings
-                                                                          .poppins,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  size: 6,
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                SmallText(
-                                                                  text: MyStrings
-                                                                      .number,
-                                                                  color:
-                                                                      blackColor,
-                                                                  fontFamily:
-                                                                      MyStrings
-                                                                          .poppins,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  size: 10,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 30,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.location_on,
-                                                          color:
-                                                              Color(0xffFFFCA8),
-                                                          size: 20,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        SmallText(
-                                                          text:
-                                                              MyStrings.chennai,
-                                                          color: whiteColor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontFamily:
-                                                              MyStrings.poppins,
-                                                          size: 10,
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        const Icon(
-                                                          Icons
-                                                              .person_outline_outlined,
-                                                          color:
-                                                              Color(0xffFFFCA8),
-                                                          size: 20,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        SmallText(
-                                                          text: MyStrings
-                                                              .praveenkumar,
-                                                          color: whiteColor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontFamily:
-                                                              MyStrings.poppins,
-                                                          size: 10,
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        const Icon(
-                                                          Icons
-                                                              .date_range_rounded,
-                                                          color:
-                                                              Color(0xffFFFCA8),
-                                                          size: 20,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        SmallText(
-                                                          text: MyStrings.date,
-                                                          color: whiteColor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontFamily:
-                                                              MyStrings.poppins,
-                                                          size: 10,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.location_on_outlined,
+                                                color: primaryColor,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              SmallText(
+                                                text: MyStrings.chennai,
+                                                color: primaryColor,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: MyStrings.poppins,
+                                                size: 12,
+                                              )
+                                            ],
                                           ),
-                                        ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.person_outline_outlined,
+                                                color: primaryColor,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              SmallText(
+                                                text: MyStrings.praveenkumar,
+                                                color: primaryColor,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: MyStrings.poppins,
+                                                size: 12,
+                                              )
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.date_range_rounded,
+                                                color: primaryColor,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              SmallText(
+                                                text: MyStrings.date,
+                                                color: primaryColor,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: MyStrings.poppins,
+                                                size: 12,
+                                              )
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
